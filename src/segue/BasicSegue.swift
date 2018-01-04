@@ -18,4 +18,9 @@ class UR_CLASS: UIViewController {
             }
         }
     }
+
+
+    func navigateWithoutSegue(){
+        self.present(UIStoryboard(name: "Main", bundle:nil).instantiateViewController(withIdentifier: "NaviController") as! UINavigationController, animated: true)
+    }
 }
