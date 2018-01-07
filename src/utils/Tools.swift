@@ -258,4 +258,14 @@ class Tools {
         return range.lowerBound + Int(arc4random_uniform(UInt32(range.upperBound - range.lowerBound)))
     }
 
+    static func generateImageUrl(fileName: String, image:UIImage) -> NSURL{
+        let fileURL = NSURL(fileURLWithPath: NSTemporaryDirectory().appending(fileName))
+        let data = UIImageJPEGRepresentation(image, 0.6)
+        do {
+            try data?.write(to:fileURL as URL)
+        } catch let error{
+            Logger.error(tag: "error", message: error)
+        }
+        return fileURL
+    }
 }
