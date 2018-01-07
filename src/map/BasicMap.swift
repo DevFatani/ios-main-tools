@@ -51,5 +51,13 @@ class UR_CLASS: UIViewController, GMSMapViewDelegate {
            marker.map = self.googleMapsView
         }
     }
+
+
+      private func addSingleMarker(_ location: (lat: Double, lng: Double)){
+        let coordinate =  CLLocationCoordinate2DMake(location.lat, location.lng)
+        let marker = GMSMarker(position: coordinate)
+        marker.map = self.googleMapsView
+        self.googleMapsView.animate(to: GMSCameraPosition.camera( withTarget:coordinate, zoom: 17.0))
+    }
    
 }
