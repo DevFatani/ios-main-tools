@@ -20,6 +20,4 @@ extension UI_CLASS:: UICollectionViewDataSource, UICollectionViewDelegate, UICol
         cell.object = self.objects[indexPath.row]
         return cell
     }
-
-    
 }
