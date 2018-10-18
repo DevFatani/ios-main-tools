@@ -16,10 +16,26 @@ class UR_CLASS: UIViewController, GMSMapViewDelegate {
                 self.googleMapsView.mapStyle = style
             }
         }
-        
     }
-    
-    //MARK
+
+    private func addMarkerBy(objects:[Object]){
+        for object in self.objects {
+           let coordinate =  CLLocationCoordinate2DMake(object.lat, object.lng)
+           let marker = GMSMarker(position: coordinate)
+           marker.icon = Tools.replaceMarkerWith("YOUR_IMAGE", 0.5)
+           marker.map = self.googleMapsView
+        }
+    }
+
+    private func addSingleMarker(_ location: (lat: Double, lng: Double)){
+        let coordinate =  CLLocationCoordinate2DMake(location.lat, location.lng)
+        let marker = GMSMarker(position: coordinate)
+        marker.map = self.googleMapsView
+        self.googleMapsView.animate(to: GMSCameraPosition.camera( withTarget:coordinate, zoom: 17.0))
+    }
+
+
+    // Impl Methods
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         for object in self.objects {
                 let position = marker.position
@@ -30,7 +46,6 @@ class UR_CLASS: UIViewController, GMSMapViewDelegate {
             }
         return false
     }
-
 
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
         self.googleMapsView.isMyLocationEnabled = true
@@ -43,21 +58,17 @@ class UR_CLASS: UIViewController, GMSMapViewDelegate {
         }
     }
 
-    private func addMarkerBy(objects:[Object]){
-        for object in self.objects {
-           let coordinate =  CLLocationCoordinate2DMake(object.lat, object.lng)
-           let marker = GMSMarker(position: coordinate)
-           marker.icon = Tools.replaceMarkerWith("YOUR_IMAGE", 0.5)
-           marker.map = self.googleMapsView
-        }
+    func mapView(_ mapView: GMSMapView, didTapPOIWithPlaceID placeID: String, name: String, location: CLLocationCoordinate2D) {
+        print("\(#function)")
+        print("placeID: \(placeID), name: \(name), location: \(location.latitude), \(location.longitude)")
     }
 
 
-      private func addSingleMarker(_ location: (lat: Double, lng: Double)){
-        let coordinate =  CLLocationCoordinate2DMake(location.lat, location.lng)
-        let marker = GMSMarker(position: coordinate)
-        marker.map = self.googleMapsView
-        self.googleMapsView.animate(to: GMSCameraPosition.camera( withTarget:coordinate, zoom: 17.0))
+    func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
+        self.marker?.position = position.target
     }
-   
+
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        return true
+    }   
 }
